@@ -1,4 +1,7 @@
 // -----------------------------------------------------------------------------
+@import '/node_modules/normalize.css/normalize.css';
+
+// -----------------------------------------------------------------------------
 $green-500: #0faf67;
 $green-300: #1c5c40;
 
@@ -37,6 +40,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 h1 {
   font-size: 4rem;
 }
@@ -62,17 +75,20 @@ input {
     color: $white-900;
 
     display: flex;
-    justify-content: space-between;
     align-items: center;
   }
 
   & > header {
     height: 6rem;
     background-color: $green-500;
+
+    justify-content: space-between;
   }
   & > footer {
     height: 12rem;
     background-color: $green-300;
+
+    justify-content: center;
   }
 
   & > header {
@@ -99,6 +115,7 @@ input {
 
   & > footer {
     margin-top: auto;
+    font-size: 2rem;
   }
 }
 
@@ -109,13 +126,13 @@ input {
 
   & > * {
     padding: $default-padding;
-    margin: 0 1rem;
 
     border-radius: $default-border-radius;
     background-color: $white-900;
   }
 
   & > aside {
+    margin-right: 2rem;
     flex: 1;
   }
 

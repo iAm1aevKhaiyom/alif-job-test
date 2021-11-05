@@ -6,10 +6,11 @@ import { Page404 } from './components/Page404';
 import { PostPage } from './components/PostPage';
 import { PostList } from './components/PostList';
 import { MeContext } from './Contexts';
+import { AuthorPage } from './components/AuthorPage';
 
 export function App() {
   // ---------------------------------------------------------------------------
-  const [me, updateMe] = useContext(MeContext);
+  const [_, updateMe] = useContext(MeContext);
 
   // ---------------------------------------------------------------------------
   useEffect(() => {
@@ -27,12 +28,13 @@ export function App() {
           <div className="App">
             <Header />
             <Outlet />
-            <footer>Basic footer</footer>
+            <footer>Basic Footer</footer>
           </div>
         }
       >
-        <Route path="search" element={<PostList />} />
+        <Route index element={<PostList />} />
         <Route path="post/:postID" element={<PostPage />} />
+        <Route path="author/:authorID" element={<AuthorPage />} />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Routes>

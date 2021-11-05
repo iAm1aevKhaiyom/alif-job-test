@@ -1,31 +1,39 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { API } from '../API';
-import { useParams } from 'react-router-dom';
-import { PostType } from '../utils';
+import { Link, useParams } from 'react-router-dom';
+import { AuthorType, PostType } from '../utils';
 
 export function AuthorPage(props: PropsWithChildren<{}>) {
   // ---------------------------------------------------------------------------
-  const [author, setAuthor] = useState<PostType>();
-  const { postID } = useParams();
+  const [author, setAuthor] = useState<AuthorType | null | undefined>(
+    undefined
+  );
+  const { authorID } = useParams();
 
   // ---------------------------------------------------------------------------
   useEffect(() => {
     (async () => {
-      if (postID) setPost(await API.getPost({ postID }));
+      try {
+        if (authorID) setAuthor(await API.getAuthor({ authorID }));
+      } catch (error) {
+        setAuthor(null);
+      }
     })();
-  }, [postID]);
+  }, [authorID]);
 
   // ---------------------------------------------------------------------------
-  if (!postID) return null; // redirect to 404
-  if (!post) return null;
+  if (!authorID || author === null) return <h1>404</h1>; // redirect to 404
+  if (!author) return <p>Loading...</p>;
 
-  const { id, text, title, userID } = post;
+  // ---------------------------------------------------------------------------
+  const { email, imgSrc, name, phone, username } = author;
   return (
-    <main id="post-page">
-      <h1>{title}</h1>
-      <p>{text}</p>
-
-      <address></address>
+    <main id="author-page">
+      <img src={imgSrc.x400} alt={name} />
+      <h1>{name}</h1>
+      <h2>{username}</h2>
+      <h2>{email}</h2>
+      <h2>{phone}</h2>
     </main>
   );
 }

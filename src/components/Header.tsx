@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { API } from '../API';
 import { IsModalVisibleContext, MeContext } from '../Contexts';
 import { Modal } from './Modal';
@@ -40,7 +41,9 @@ export function Header() {
   // ---------------------------------------------------------------------------
   return (
     <header>
-      <h1>Alif Task</h1>
+      <h1>
+        <Link to="/">Alif Task</Link>
+      </h1>
       <p>
         Hello,{' '}
         <span onClick={() => void setIsModalVisible(true)}>

@@ -29,19 +29,21 @@ export const LocalStorage = {
 export type AwaitedType<T> = T extends PromiseLike<infer U> ? U : T;
 
 // -----------------------------------------------------------------------------
-export type PostType = {
+export type FetchedEntityType = {
   id: number;
-  text: string;
-  title: string;
   imgSrc: {
     x150: string;
-    x600: string;
+    x400: string;
   };
+};
+
+export type PostType = FetchedEntityType & {
+  text: string;
+  title: string;
   authorID: number;
 };
 
-export type AuthorType = {
-  id: number;
+export type AuthorType = FetchedEntityType & {
   name: string;
   email: string;
   phone: string;
