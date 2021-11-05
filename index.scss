@@ -1,0 +1,157 @@
+// -----------------------------------------------------------------------------
+$green-500: #0faf67;
+$green-300: #1c5c40;
+
+$white-900: #ffffff;
+$white-800: #e0e0e0;
+
+$black-100: #000000;
+$black-200: #111111;
+
+$default-border-radius: 1rem;
+$default-padding: 2rem;
+
+// -----------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+
+  color: $black-200;
+  background-color: $white-800;
+
+  font-size: 1.5em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+input {
+  display: block;
+}
+
+// -----------------------------------------------------------------------------
+.App {
+  margin: 0 auto;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    padding: 0 calc((100vw - 144rem) / 2);
+  }
+
+  & > header,
+  & > footer {
+    color: $white-900;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  & > header {
+    height: 6rem;
+    background-color: $green-500;
+  }
+  & > footer {
+    height: 12rem;
+    background-color: $green-300;
+  }
+
+  & > header {
+    font-size: 2rem;
+
+    span {
+      font-family: monospace;
+      font-weight: bold;
+      font-size: 1.2em;
+
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  & > main {
+    padding-top: $default-padding;
+    padding-bottom: $default-padding;
+
+    flex-grow: 1;
+  }
+
+  & > footer {
+    margin-top: auto;
+  }
+}
+
+// -----------------------------------------------------------------------------
+#post-list {
+  display: flex;
+  justify-content: space-between;
+
+  & > * {
+    padding: $default-padding;
+    margin: 0 1rem;
+
+    border-radius: $default-border-radius;
+    background-color: $white-900;
+  }
+
+  & > aside {
+    flex: 1;
+  }
+
+  & > ul {
+    flex: 3;
+  }
+}
+
+// -----------------------------------------------------------------------------
+#modal-root {
+  & > * {
+    position: fixed;
+  }
+
+  & > .background {
+    z-index: 100;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    opacity: 0.6;
+    background-color: $black-100;
+  }
+
+  & > .content {
+    z-index: 101;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: $default-padding;
+    border-radius: $default-border-radius;
+
+    background-color: $white-900;
+  }
+}
