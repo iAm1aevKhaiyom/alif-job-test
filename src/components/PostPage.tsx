@@ -20,18 +20,18 @@ export function PostPage(props: PropsWithChildren<{}>) {
   }, [postID]);
 
   // ---------------------------------------------------------------------------
-  if (!postID || post === null) return <h1>404</h1>; // redirect to 404
+  if (!postID || post === null) return <h1>404 - Post not found</h1>;
+
   if (!post) return <p>Loading...</p>;
 
   // ---------------------------------------------------------------------------
-  const { id, text, title, authorID, imgSrc } = post;
   return (
     <main id="post-page">
-      <img src={imgSrc.x400} alt={title} />
-      <h1> {title}</h1>
-      <p> {text}</p>
+      <img src={post.imgSrc.x400} alt={post.title} />
+      <h1> {post.title}</h1>
+      <p> {post.text}</p>
 
-      <Link rel="author" to={`/author/${authorID}`}>
+      <Link rel="author" to={`/author/${post.authorID}`}>
         Goto Author's Page
       </Link>
     </main>

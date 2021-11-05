@@ -22,7 +22,7 @@ export function AuthorPage(props: PropsWithChildren<{}>) {
   }, [authorID]);
 
   // ---------------------------------------------------------------------------
-  if (!authorID || author === null) return <h1>404</h1>; // redirect to 404
+  if (!authorID || author === null) return <h1>404 - Author not found</h1>;
   if (!author) return <p>Loading...</p>;
 
   // ---------------------------------------------------------------------------

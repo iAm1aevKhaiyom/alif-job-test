@@ -45,16 +45,16 @@ ul {
   padding: 0;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
 h1 {
   font-size: 4rem;
 }
 
-input {
+label {
+  display: block;
+}
+
+input[type='text'],
+input[type='search'] {
   display: block;
 }
 
@@ -93,6 +93,11 @@ input {
 
   & > header {
     font-size: 2rem;
+
+    & > h1 > a {
+      text-decoration: none;
+      color: inherit;
+    }
 
     span {
       font-family: monospace;

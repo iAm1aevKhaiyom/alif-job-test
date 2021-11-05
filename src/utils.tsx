@@ -28,6 +28,8 @@ export const LocalStorage = {
 // -----------------------------------------------------------------------------
 export type AwaitedType<T> = T extends PromiseLike<infer U> ? U : T;
 
+export type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 // -----------------------------------------------------------------------------
 export type FetchedEntityType = {
   id: number;
@@ -51,19 +53,20 @@ export type AuthorType = FetchedEntityType & {
 };
 
 // -----------------------------------------------------------------------------
-export type TagType =
-  | 'ES-List'
-  | 'Multi-Threading'
-  | 'Golang'
-  | 'Life-Hacks'
-  | 'Football-2022'
-  | 'Covid-19'
-  | 'IT'
-  | 'Genshin Impact'
-  | 'Brexit'
-  | 'Fun'
-  | 'Science'
-  | 'Typescript'
-  | 'React';
+export const TagEnum = [
+  'ES-List',
+  'Multi-Threading',
+  'Golang',
+  'Life-Hacks',
+  'Football-2022',
+  'Covid-19',
+  'IT',
+  'Genshin Impact',
+  'Brexit',
+  'Fun',
+  'Science',
+  'Typescript',
+  'React',
+] as const;
 
 // -----------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { PostType, TagType } from '../utils';
+import { PostType, TagEnum, ArrayElement } from '../utils';
 import { API } from '../API';
 
 // -----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ const PostCard = ({
 }: PropsWithChildren<PostType>) => (
   <li key={id}>
     <header>
-      <img src={imgSrc} alt={title} />
+      <img src={imgSrc.x150} alt={title} />
       <h3>{title}</h3>
     </header>
     <p>
@@ -25,40 +25,64 @@ const PostCard = ({
 // -----------------------------------------------------------------------------
 export function PostList() {
   // ---------------------------------------------------------------------------
-  // const [SP, setSP] = useSearchParams();
   const [posts, setPosts] = useState<PostType[]>([]);
+  const [pagesCount, setPageCount] = useState(0);
 
-  const [sp, setSp] = useState<{
-    query: string;
-    tagList: TagType[];
-  }>({
-    query: '',
-    tagList: ['Brexit', 'Covid-19'],
-  });
+  const [query, setQuery] = useState('');
+  const [tagList, setTagList] = useState(
+    new Set<typeof TagEnum[number]>(['IT', 'React'])
+  );
+
+  // ---------------------------------------------------------------------------
+  function handleCheckboxChange(
+    e: React.ChangeEvent<HTMLInputElement & { value: typeof TagEnum[number] }>
+  ) {
+    if (!tagList.delete(e.target.value)) tagList.add(e.target.value);
+    setTagList(new Set(tagList));
+  }
 
   // ---------------------------------------------------------------------------
   useEffect(() => {
     (async () => {
-      // setPosts(await API.getPosts());
+      const { pagesCount, posts } = await API.getPosts({
+        query,
+        tagList: Array.from(tagList),
+        page: 1,
+      });
+
+      setPageCount(pagesCount);
+      setPosts(posts);
     })();
-  });
+  }, [query, tagList]);
 
   // ---------------------------------------------------------------------------
   return (
     <main id="post-list">
       <aside>
-        <label>
-          Search:
-          <input
-            type="search"
-            value={sp.query}
-            onChange={(e) =>
-              void setSp((prev) => ({ ...prev, query: e.target.value }))
-            }
-          />
-        </label>
+        {/* // ------------------------------------------------------------- */}
+        <h3>Search:</h3>
+        <input
+          type="search"
+          value={query}
+          placeholder="type something..."
+          onChange={(e) => void setQuery(e.target.value)}
+        />
 
-        <label>Taglist:</label>
+        {/* // ------------------------------------------------------------- */}
+        <h3>Taglist:</h3>
+        {TagEnum.map((tag) => (
+          <label key={tag}>
+            <input
+              type="checkbox"
+              value={tag}
+              checked={tagList.has(tag)}
+              onChange={handleCheckboxChange}
+            />
+            {tag}
+          </label>
+        ))}
+
+        {/* // ------------------------------------------------------------- */}
       </aside>
       <ul>
         {posts.map((props) => (
