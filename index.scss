@@ -213,18 +213,38 @@ button {
 
     display: flex;
     flex-direction: column;
-
-    & > * {
-      @include paper-styled();
-    }
   }
 }
 
 #post-list {
   flex-grow: 1;
+
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  & > li {
+    @include paper-styled();
+
+    max-height: 30rem;
+    flex: 0 0 48%;
+
+    margin: 2rem 0;
+
+    img {
+      float: left;
+    }
+
+    a {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+  }
 }
 
 #page-list {
+  @include paper-styled();
+
   min-height: 4rem;
   margin-top: 1rem;
 

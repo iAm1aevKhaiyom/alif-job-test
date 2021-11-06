@@ -83,8 +83,8 @@ export function SearchPage() {
         <ul id="post-list">
           {Array.isArray(pages[currentPage]) &&
             pages[currentPage].map((props) => (
-              // <PostCard {...props} />
-              <li key={props.id}>{props.title}</li>
+              <PostCard {...props} />
+              // <li key={props.id}>{props.title}</li>
             ))}
         </ul>
 
@@ -107,20 +107,21 @@ export function SearchPage() {
 
 // -----------------------------------------------------------------------------
 
-// const PostCard = ({
-//   imgSrc,
-//   text: text,
-//   title,
-//   id,
-// }: PropsWithChildren<PostType>) => (
-//   <li key={id}>
-//     <header>
-//       <img src={imgSrc.x150} alt={title} />
-//       <h3>{title}</h3>
-//     </header>
-//     <p>
-//       {text}
-//       <Link to={`post/${id}`}>Read more...</Link>
-//     </p>
-//   </li>
-// );
+const PostCard = ({
+  imgSrc,
+  text: text,
+  title,
+  id,
+}: PropsWithChildren<PostType>) => (
+  <li key={id}>
+    <header>
+      <img src={imgSrc.x150} alt={title} />
+      <h3>{title.substr(0, 20)}</h3>
+    </header>
+    <p>
+      {text.substr(0, 40)}
+      <br />
+      <Link to={`post/${id}`}>Read more...</Link>
+    </p>
+  </li>
+);
