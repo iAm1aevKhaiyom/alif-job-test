@@ -53,20 +53,22 @@ export type AuthorType = FetchedEntityType & {
 };
 
 // -----------------------------------------------------------------------------
-export const TagEnum = [
-  'ES-List',
-  'Multi-Threading',
-  'Golang',
-  'Life-Hacks',
-  'Football-2022',
-  'Covid-19',
-  'IT',
-  'Genshin Impact',
-  'Brexit',
-  'Fun',
-  'Science',
-  'Typescript',
-  'React',
-] as const;
+export const TagEnum = ['ea', 'sit', 'amet', 'dolor', 'magnam'] as const;
+
+// export const TagEnum = [
+//   'ES-List',
+//   'Multi-Threading',
+//   'Golang',
+//   'Life-Hacks',
+//   'Football-2022',
+//   'Covid-19',
+//   'IT',
+//   'Genshin Impact',
+//   'Brexit',
+//   'Fun',
+//   'Science',
+//   'Typescript',
+//   'React',
+// ] as const;
 
 // -----------------------------------------------------------------------------

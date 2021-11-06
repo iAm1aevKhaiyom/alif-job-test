@@ -6,13 +6,14 @@ import { API } from '../API';
 // -----------------------------------------------------------------------------
 export function SearchPage() {
   // ---------------------------------------------------------------------------
+  const [pages, setPages] = useState<{ [k: number]: PostType[] }>({});
+  const [currentPage, setCurrentPage] = useState(0);
   const [pagesCount, setPageCount] = useState(0);
-  const [posts, setPosts] = useState<PostType[]>([]);
 
   const [query, setQuery] = useState('');
   const [tagList, setTagList] = useState(new Set<typeof TagEnum[number]>([]));
 
-  console.log({ posts, pagesCount });
+  console.log({ currentPage, pages, pagesCount });
 
   // ---------------------------------------------------------------------------
   function handleCheckboxChange(
@@ -23,16 +24,29 @@ export function SearchPage() {
   }
 
   // ---------------------------------------------------------------------------
+  async function handlePageChange(i: number) {
+    const { posts } = await API.getPosts({
+      query,
+      tagList: Array.from(tagList),
+      page: i,
+    });
+
+    setPages((prev) => ({ ...prev, [i]: posts }));
+    setCurrentPage(i);
+  }
+
+  // ---------------------------------------------------------------------------
   useEffect(() => {
     (async () => {
       const { pagesCount, posts } = await API.getPosts({
         query,
         tagList: Array.from(tagList),
-        page: 1,
+        page: 0,
       });
 
+      setCurrentPage(0);
       setPageCount(pagesCount);
-      setPosts(posts);
+      setPages({ 0: posts });
     })();
   }, [query, tagList]);
 
@@ -41,15 +55,15 @@ export function SearchPage() {
     <main id="search-page">
       {/* // --------------------------------------------------------------- */}
       <aside>
-        <h3>Search:</h3>
         <input
           type="search"
           value={query}
-          placeholder="type something..."
+          placeholder="Поиск по названию"
           onChange={(e) => void setQuery(e.target.value)}
         />
 
-        <h3>Taglist:</h3>
+        <p>Поиск по тегам:</p>
+
         {TagEnum.map((tag) => (
           <label key={tag}>
             <input
@@ -67,15 +81,23 @@ export function SearchPage() {
       {/* // --------------------------------------------------------------- */}
       <main>
         <ul id="post-list">
-          {posts.map((props) => (
-            // <PostCard {...props} />
-            <li key={props.id}>{props.title}</li>
-          ))}
+          {Array.isArray(pages[currentPage]) &&
+            pages[currentPage].map((props) => (
+              // <PostCard {...props} />
+              <li key={props.id}>{props.title}</li>
+            ))}
         </ul>
 
         <ul id="page-list">
           {Array.from({ length: pagesCount }).map((_, i) => (
-            <li key={i}>{i}</li>
+            <li
+              key={i + 1}
+              data-is-active={`${i === currentPage}`}
+              onClick={(e) => handlePageChange(i)}
+            >
+              {i + 1}
+              {i + 1 === currentPage}
+            </li>
           ))}
         </ul>
       </main>

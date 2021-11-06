@@ -21,7 +21,6 @@ export function PostPage(props: PropsWithChildren<{}>) {
 
   // ---------------------------------------------------------------------------
   if (!postID || post === null) return <h1>404 - Post not found</h1>;
-
   if (!post) return <p>Loading...</p>;
 
   // ---------------------------------------------------------------------------

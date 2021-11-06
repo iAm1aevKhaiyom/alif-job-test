@@ -18,7 +18,7 @@ $black-100: #000000;
 $black-200: #111111;
 
 $block-border-radius: 0.8rem;
-$block-padding: 2rem;
+$block-padding: 1.5rem;
 
 $input-border-radius: 0.8rem;
 $input-padding: 2rem;
@@ -91,16 +91,28 @@ ul {
 }
 
 label,
+button,
 input[type='text'],
 input[type='search'] {
   display: block;
 }
 
+button,
 input[type='text'],
 input[type='search'] {
   border: 2px solid black;
   padding: 0.3em 0.5em;
   border-radius: 0.25em;
+}
+
+button {
+  background-color: $white-900;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    transform: scale(1.1);
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -185,6 +197,15 @@ input[type='search'] {
     flex: 1;
     margin-right: 2rem;
     @include paper-styled();
+
+    p {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type='checkbox'] {
+      margin-right: 1ch;
+    }
   }
 
   & > main {
@@ -209,6 +230,32 @@ input[type='search'] {
 
   display: flex;
   justify-content: center;
+  align-items: center;
+
+  & > li {
+    $side-length: 4rem;
+
+    min-width: $side-length;
+    min-height: $side-length;
+
+    cursor: pointer;
+
+    font-size: 2.2rem;
+
+    margin-left: 1.5rem;
+
+    border-radius: $input-border-radius;
+    border: 2px solid black;
+
+    text-align: center;
+    line-height: $side-length;
+
+    &[data-is-active='true'] {
+      background-color: $green-300;
+      color: $white-800;
+      cursor: default;
+    }
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -237,6 +284,21 @@ input[type='search'] {
     z-index: 101;
     @include absolutely-centered();
     @include paper-styled();
+  }
+
+  // below unoptimized
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+
+    gap: 1rem;
+  }
+
+  legend {
+    font-size: 1.5em;
   }
 }
 
