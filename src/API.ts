@@ -79,6 +79,7 @@ export const API = {
   // ---------------------------------------------------------------------------
   async getPosts(args: {
     query: string;
+    userId?: number;
     tagList: string[];
     page: number;
   }): Promise<{ posts: PostType[]; pagesCount: number }> {
@@ -97,11 +98,12 @@ export const API = {
     >('posts');
 
     const filteredPosts = posts.filter(
-      ({ title }) =>
+      ({ title, userId }) =>
         title.toLowerCase().includes(args.query.toLowerCase()) &&
         args.tagList.every((tag) =>
           title.toLowerCase().split(' ').includes(tag.toLowerCase())
-        )
+        ) &&
+        (!args.userId || args.userId === userId)
     );
 
     const serializedPosts = filteredPosts.map(

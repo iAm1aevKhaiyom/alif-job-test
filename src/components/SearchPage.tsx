@@ -1,17 +1,21 @@
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { PostType, TagEnum, ArrayElement } from '../utils';
 import { API } from '../API';
+import { MeContext } from '../Contexts';
 
 // -----------------------------------------------------------------------------
 export function SearchPage() {
   // ---------------------------------------------------------------------------
+  const [me] = useContext(MeContext);
+
   const [pages, setPages] = useState<{ [k: number]: PostType[] }>({});
   const [currentPage, setCurrentPage] = useState(0);
   const [pagesCount, setPageCount] = useState(0);
 
   const [query, setQuery] = useState('');
   const [tagList, setTagList] = useState(new Set<typeof TagEnum[number]>([]));
+  const [onlyMyFlag, setOnlyMyFlag] = useState(false);
 
   console.log({ currentPage, pages, pagesCount });
 
@@ -38,17 +42,25 @@ export function SearchPage() {
   // ---------------------------------------------------------------------------
   useEffect(() => {
     (async () => {
-      const { pagesCount, posts } = await API.getPosts({
-        query,
-        tagList: Array.from(tagList),
-        page: 0,
-      });
+      const { pagesCount, posts } = await API.getPosts(
+        Object.assign(
+          {
+            query,
+            tagList: Array.from(tagList),
+            page: 0,
+          },
+          onlyMyFlag &&
+            me && {
+              userId: me?.id,
+            }
+        )
+      );
 
       setCurrentPage(0);
       setPageCount(pagesCount);
       setPages({ 0: posts });
     })();
-  }, [query, tagList]);
+  }, [query, tagList, onlyMyFlag, me]);
 
   // ---------------------------------------------------------------------------
   return (
@@ -61,6 +73,17 @@ export function SearchPage() {
           placeholder="Поиск по названию"
           onChange={(e) => void setQuery(e.target.value)}
         />
+
+        <label>
+          Показать только мои посты:{' '}
+          <input
+            type="checkbox"
+            name="tag-list"
+            value="only-my-posts"
+            checked={onlyMyFlag}
+            onChange={() => setOnlyMyFlag((prev) => !prev)}
+          />
+        </label>
 
         <p>Поиск по тегам:</p>
 
