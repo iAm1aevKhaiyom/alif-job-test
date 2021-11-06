@@ -84,10 +84,8 @@ export const API = {
   }): Promise<{ posts: PostType[]; pagesCount: number }> {
     const POSTS_PER_PAGE = 8;
 
-    const [sliceStart, sliceEnd] = [
-      args.page * POSTS_PER_PAGE,
-      args.page * (POSTS_PER_PAGE + 1),
-    ];
+    const sliceStart = (args.page - 1) * POSTS_PER_PAGE;
+    const sliceEnd = sliceStart + POSTS_PER_PAGE;
 
     const { data: posts } = await axios.get<
       {
@@ -119,6 +117,7 @@ export const API = {
       })
     );
 
+    console.log({ serializedPosts, sliceStart, sliceEnd });
     return {
       posts: serializedPosts.slice(sliceStart, sliceEnd),
       pagesCount: Math.ceil(serializedPosts.length / POSTS_PER_PAGE),

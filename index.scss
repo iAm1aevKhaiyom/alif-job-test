@@ -1,7 +1,13 @@
 // -----------------------------------------------------------------------------
+// Imports
+// -----------------------------------------------------------------------------
+
 @import '/node_modules/normalize.css/normalize.css';
 
 // -----------------------------------------------------------------------------
+// Variables
+// -----------------------------------------------------------------------------
+
 $green-500: #0faf67;
 $green-300: #1c5c40;
 
@@ -11,10 +17,49 @@ $white-800: #e0e0e0;
 $black-100: #000000;
 $black-200: #111111;
 
-$default-border-radius: 1rem;
-$default-padding: 2rem;
+$block-border-radius: 0.8rem;
+$block-padding: 2rem;
+
+$input-border-radius: 0.8rem;
+$input-padding: 2rem;
 
 // -----------------------------------------------------------------------------
+// Mixins
+// -----------------------------------------------------------------------------
+
+@mixin absolutely-centered() {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin paper-styled() {
+  padding: $block-padding;
+  border-radius: $block-border-radius;
+  background-color: $white-900;
+}
+
+@mixin offset($value) {
+  top: $value;
+  right: $value;
+  bottom: $value;
+  left: $value;
+}
+
+@mixin padding-vertical($value) {
+  padding-top: $value;
+  padding-bottom: $value;
+}
+
+@mixin padding-horizontal($value) {
+  padding-left: $value;
+  padding-right: $value;
+}
+
+// -----------------------------------------------------------------------------
+// Globals
+// -----------------------------------------------------------------------------
+
 *,
 *::before,
 *::after {
@@ -32,7 +77,7 @@ body {
   color: $black-200;
   background-color: $white-800;
 
-  font-size: 1.5em;
+  font-size: 2em;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -42,111 +87,140 @@ body {
 
 ul {
   margin: 0;
-  padding: 0;
+  list-style: none;
 }
 
-h1 {
-  font-size: 4rem;
-}
-
-label {
-  display: block;
-}
-
+label,
 input[type='text'],
 input[type='search'] {
   display: block;
 }
 
-// -----------------------------------------------------------------------------
-.App {
-  margin: 0 auto;
-  min-height: 100vh;
+input[type='text'],
+input[type='search'] {
+  border: 2px solid black;
+  padding: 0.3em 0.5em;
+  border-radius: 0.25em;
+}
 
+// -----------------------------------------------------------------------------
+// App
+// -----------------------------------------------------------------------------
+
+#app {
+  // ---------------------------------------------------------------------------
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 
+  // ---------------------------------------------------------------------------
   & > * {
-    padding: 0 calc((100vw - 144rem) / 2);
-  }
-
-  & > header,
-  & > footer {
-    color: $white-900;
-
-    display: flex;
-    align-items: center;
-  }
-
-  & > header {
-    height: 6rem;
-    background-color: $green-500;
-
-    justify-content: space-between;
-  }
-  & > footer {
-    height: 12rem;
-    background-color: $green-300;
-
-    justify-content: center;
-  }
-
-  & > header {
-    font-size: 2rem;
-
-    & > h1 > a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    span {
-      font-family: monospace;
-      font-weight: bold;
-      font-size: 1.2em;
-
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
+    @include padding-horizontal(calc((100vw - 144rem) / 2));
   }
 
   & > main {
-    padding-top: $default-padding;
-    padding-bottom: $default-padding;
-
+    @include padding-vertical($block-padding);
     flex-grow: 1;
   }
 
   & > footer {
     margin-top: auto;
+  }
+
+  // ---------------------------------------------------------------------------
+  & > header,
+  & > footer {
+    display: flex;
+    align-items: center;
+
     font-size: 2rem;
+    color: $white-900;
+  }
+
+  // ---------------------------------------------------------------------------
+  & > header {
+    height: 6rem;
+    background-color: $green-500;
+    justify-content: space-between;
+  }
+
+  & > footer {
+    height: 12rem;
+    background-color: $green-300;
+    justify-content: center;
   }
 }
 
 // -----------------------------------------------------------------------------
-#post-list {
+// Header
+// -----------------------------------------------------------------------------
+
+#logo > a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#welcome {
+  & > code {
+    cursor: pointer;
+    &::before,
+    &::after {
+      content: '"';
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Search Page
+// -----------------------------------------------------------------------------
+
+#search-page {
   display: flex;
   justify-content: space-between;
 
-  & > * {
-    padding: $default-padding;
-
-    border-radius: $default-border-radius;
-    background-color: $white-900;
-  }
-
   & > aside {
-    margin-right: 2rem;
     flex: 1;
+    margin-right: 2rem;
+    @include paper-styled();
   }
 
-  & > ul {
+  & > main {
     flex: 3;
+
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+      @include paper-styled();
+    }
   }
 }
 
+#post-list {
+  flex-grow: 1;
+}
+
+#page-list {
+  min-height: 4rem;
+  margin-top: 1rem;
+
+  display: flex;
+  justify-content: center;
+}
+
 // -----------------------------------------------------------------------------
+// Footer
+// -----------------------------------------------------------------------------
+
+// ...
+
+// -----------------------------------------------------------------------------
+// Modal
+// -----------------------------------------------------------------------------
+
 #modal-root {
   & > * {
     position: fixed;
@@ -154,26 +228,18 @@ input[type='search'] {
 
   & > .background {
     z-index: 100;
-
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
     opacity: 0.6;
     background-color: $black-100;
+    @include offset(0);
   }
 
   & > .content {
     z-index: 101;
-
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    padding: $default-padding;
-    border-radius: $default-border-radius;
-
-    background-color: $white-900;
+    @include absolutely-centered();
+    @include paper-styled();
   }
 }
+
+// -----------------------------------------------------------------------------
+// EOF
+// -----------------------------------------------------------------------------

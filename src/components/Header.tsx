@@ -41,14 +41,14 @@ export function Header() {
   // ---------------------------------------------------------------------------
   return (
     <header>
-      <h1>
+      <h1 id="logo">
         <Link to="/">Alif Task</Link>
       </h1>
-      <p>
+      <p id="welcome">
         Hello,{' '}
-        <span onClick={() => void setIsModalVisible(true)}>
+        <code onClick={() => void setIsModalVisible(true)}>
           {me?.username || 'Guest'}
-        </span>
+        </code>
         <Modal>{me ? <LogoutForm /> : <LoginForm />}</Modal>
       </p>
     </header>
